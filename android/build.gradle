@@ -1,0 +1,46 @@
+group 'co.adcel.flutter_adcel'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://pubsdk-bin.criteo.com/publishersdk/android" }
+        maven { url "https://maven.ogury.co" }
+        maven { url "https://adcolony.bintray.com/AdColony" }
+        maven { url "https://dl.bintray.com/ironsource-mobile/android-sdk" }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.0'
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://pubsdk-bin.criteo.com/publishersdk/android" }
+        maven { url "https://maven.ogury.co" }
+        maven { url "https://adcolony.bintray.com/AdColony" }
+        maven { url "https://dl.bintray.com/ironsource-mobile/android-sdk" }
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 19
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+}
+
+dependencies {
+    api 'co.adcel.android:adcel:1.11.4'
+}
