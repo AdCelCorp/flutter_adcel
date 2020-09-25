@@ -1,5 +1,7 @@
 #import "FlutterAdcelPlugin.h"
 
+#import "AdCelSDKPlugin.h"
+
 @implementation FlutterAdcelPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
@@ -10,9 +12,17 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  if ([@"getPlatformVersion" isEqualToString:call.method]) {
-    result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
-  } else {
+  if ([@"init" isEqualToString:call.method]) {
+      AdCel_setLogLevel_platform(1);
+      AdCel_start_platform([call.arguments[@"key"] UTF8String],
+                           [[[call.arguments[@"types"] componentsJoinedByString:@","] capitalizedString] UTF8String]);
+      result(nil);
+  }
+  else if ([@"showInterstitialAd" isEqualToString:call.method]) {
+      BOOL success = AdCel_showInterstitial_platform([call.arguments[@"type"] UTF8String]);
+      result([NSNumber numberWithBool:success]);
+  }
+  else {
     result(FlutterMethodNotImplemented);
   }
 }

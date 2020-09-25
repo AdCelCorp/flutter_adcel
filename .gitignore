@@ -9,3 +9,6 @@ build/
 android/gradle
 example/android/gradle
 .gradle
+.last_build_id
+Podfile.lock
+IDEWorkspaceChecks.plist
