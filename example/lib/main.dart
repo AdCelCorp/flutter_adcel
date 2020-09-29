@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> with AdCelInterstitialListener {
+class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBannerListener {
   bool _isButtonDisabled = true;
 
   @override
@@ -46,15 +46,24 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: MaterialButton(
-            child: Text('show ad'),
-            onPressed: _isButtonDisabled ? null : () {
-              AdCel.showInterstitialAd(AdCelAdType.VIDEO);
-            },
+        body: Column(
+          children: [
+            MaterialButton(
+              child: Text('show ad'),
+              onPressed: _isButtonDisabled ? null : () {
+                AdCel.showInterstitialAd(AdCelAdType.VIDEO);
+              },
 
-          ),
-        ),
+            ),
+            AdCelBanner(
+              adSize: AdCelBanner.SIZE_320x50,
+              listener: this,
+              onBannerCreated: (AdCelBannerController controller) {
+
+              },
+            )
+          ],
+        )
       ),
     );
   }
@@ -95,5 +104,25 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener {
   @override
   void onRewardedCompleted(String adProvider, String currencyName, String currencyValue) {
     print('onRewardedCompleted: $adProvider, $currencyName, $currencyValue');
+  }
+
+  @override
+  void onBannerClicked() {
+    print('onBannerClicked');
+  }
+
+  @override
+  void onBannerFailedToLoad() {
+    print('onBannerFailedToLoad');
+  }
+
+  @override
+  void onBannerFailedToLoadProvider(String provider) {
+    print('onBannerFailedToLoadProvider: $provider');
+  }
+
+  @override
+  void onBannerLoad() {
+    print('onBannerLoad');
   }
 }

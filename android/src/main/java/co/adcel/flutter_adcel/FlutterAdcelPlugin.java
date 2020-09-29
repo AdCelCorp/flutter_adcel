@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import co.adcel.init.AdCel;
-import co.adcel.init.AdCelInitializationListener;
 import co.adcel.interstitialads.InterstitialListener;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
@@ -18,7 +17,6 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 /** FlutterAdcelPlugin */
 public class FlutterAdcelPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, InterstitialListener {
@@ -54,21 +52,10 @@ public class FlutterAdcelPlugin implements FlutterPlugin, ActivityAware, MethodC
     final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_adcel");
     this.mChannel = channel;
     channel.setMethodCallHandler(this);
+    flutterPluginBinding.getPlatformViewRegistry()
+            .registerViewFactory("flutter_adcel/banner",
+                    new AdCelBannerFactory(flutterPluginBinding.getBinaryMessenger()));
   }
-
-  // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-  // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-  // plugin registration via this function while apps migrate to use the new Android APIs
-  // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-  //
-  // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-  // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-  // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-  // in the same class.
-//  public static void registerWith(Registrar registrar) {
-//    final MethodChannel channel = new MethodChannel(registrar.messenger(), "flutter_adcel");
-//    channel.setMethodCallHandler(new FlutterAdcelPlugin(registrar.activity(), channel));
-//  }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {

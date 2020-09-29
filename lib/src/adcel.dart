@@ -23,24 +23,24 @@ class AdCel {
   }
 
   static Future<dynamic> _handle(MethodCall methodCall) async {
-    if(methodCall.method=='onFirstInterstitialLoad')
+    if(methodCall.method == 'onFirstInterstitialLoad')
       interstitialListener.onFirstInterstitialLoad(methodCall.arguments['type'],
           methodCall.arguments['provider']);
-    else if(methodCall.method=='onInterstitialStarted')
+    else if(methodCall.method == 'onInterstitialStarted')
       interstitialListener.onInterstitialStarted(methodCall.arguments['type'],
           methodCall.arguments['provider']);
-    else if(methodCall.method=='onInterstitialClicked')
+    else if(methodCall.method == 'onInterstitialClicked')
       interstitialListener.onInterstitialClicked(methodCall.arguments['type'],
           methodCall.arguments['provider']);
-    else if(methodCall.method=='onInterstitialClosed')
+    else if(methodCall.method == 'onInterstitialClosed')
       interstitialListener.onInterstitialClosed(methodCall.arguments['type'],
           methodCall.arguments['provider']);
-    else if(methodCall.method=='onInterstitialFailLoad')
+    else if(methodCall.method == 'onInterstitialFailLoad')
       interstitialListener.onInterstitialFailLoad(methodCall.arguments['type'],
           methodCall.arguments['provider']);
-    else if(methodCall.method=='onInterstitialFailedToShow')
+    else if(methodCall.method == 'onInterstitialFailedToShow')
       interstitialListener.onInterstitialFailedToShow(methodCall.arguments['type']);
-    else if(methodCall.method=='onRewardedCompleted')
+    else if(methodCall.method == 'onRewardedCompleted')
       interstitialListener.onRewardedCompleted(methodCall.arguments['provider'],
           methodCall.arguments['currencyName'], methodCall.arguments['currencyValue']);
   }
