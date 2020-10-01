@@ -1,5 +1,6 @@
 package co.adcel.flutter_adcel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -24,20 +25,14 @@ public class AdCelBanner implements MethodChannel.MethodCallHandler, PlatformVie
     private static final String AD_SIZE_728x90 = "728x90";
 
     private final MethodChannel channel;
-    //private final BannerAdContainer adView;
+    private final BannerAdContainer adView;
 
-    private final FrameLayout testView;
-
-    public AdCelBanner(Context context, BinaryMessenger messenger, int id, Object args) {
+    public AdCelBanner(Activity activity, BinaryMessenger messenger, int id, Object args) {
         this.channel = new MethodChannel(messenger, "flutter_adcel/banner_" + id);
-        //this.adView = new BannerAdContainer(context);
+        this.adView = new BannerAdContainer(activity);
 
         this.channel.setMethodCallHandler(this);
-        //this.adView.setSize(getSize((String)((Map)args).get("adSize")));
-
-        testView = new FrameLayout(context);
-        testView.setLayoutParams(new FrameLayout.LayoutParams(320, 50));
-        testView.setBackgroundColor(0xffff0000);
+        this.adView.setSize(getSize((String)((Map)args).get("adSize")));
     }
 
     private AdSize getSize(String size) {
@@ -56,7 +51,7 @@ public class AdCelBanner implements MethodChannel.MethodCallHandler, PlatformVie
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         if (call.method.equals("setListener")) {
-            //adView.setBannerListener(this);
+            adView.setBannerListener(this);
             result.success(null);
         } else if (call.method.equals("dispose")) {
             dispose();
@@ -68,12 +63,12 @@ public class AdCelBanner implements MethodChannel.MethodCallHandler, PlatformVie
 
     @Override
     public View getView() {
-        return testView;
+        return adView;
     }
 
     @Override
     public void dispose() {
-        //adView.destroy();
+        adView.destroy();
         channel.setMethodCallHandler(null);
     }
 

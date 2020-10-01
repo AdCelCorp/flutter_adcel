@@ -22,6 +22,7 @@ import io.flutter.plugin.common.MethodChannel.Result;
 public class FlutterAdcelPlugin implements FlutterPlugin, ActivityAware, MethodCallHandler, InterstitialListener {
   private Activity mActivity;
   private MethodChannel mChannel;
+  private FlutterPluginBinding flutterPluginBinding;
 
   public FlutterAdcelPlugin() {
 
@@ -30,6 +31,10 @@ public class FlutterAdcelPlugin implements FlutterPlugin, ActivityAware, MethodC
   @Override
   public void onAttachedToActivity(ActivityPluginBinding binding) {
     mActivity = binding.getActivity();
+
+    flutterPluginBinding.getPlatformViewRegistry()
+            .registerViewFactory("flutter_adcel/banner",
+                    new AdCelBannerFactory(flutterPluginBinding.getBinaryMessenger(), mActivity));
   }
 
   @Override
@@ -49,12 +54,10 @@ public class FlutterAdcelPlugin implements FlutterPlugin, ActivityAware, MethodC
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+    this.flutterPluginBinding = flutterPluginBinding;
     final MethodChannel channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "flutter_adcel");
     this.mChannel = channel;
     channel.setMethodCallHandler(this);
-    flutterPluginBinding.getPlatformViewRegistry()
-            .registerViewFactory("flutter_adcel/banner",
-                    new AdCelBannerFactory(flutterPluginBinding.getBinaryMessenger()));
   }
 
   @Override
