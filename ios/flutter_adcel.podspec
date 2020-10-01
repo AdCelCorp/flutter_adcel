@@ -17,9 +17,27 @@ A new flutter plugin project.
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
   
-  s.dependency 'AdCel/Core'
-  s.dependency 'AdCel/Unity'
-
+  s.dependency 'AdCel'
+  
+# insted of [s.dependency 'AdCel'] you can use any combination of next specs:
+#  s.dependency 'AdCel/AdColony'
+#  s.dependency 'AdCel/Applovin'
+#  s.dependency 'AdCel/AmazonAd'
+#  s.dependency 'AdCel/MyTarget'
+#  s.dependency 'AdCel/MoPub'
+#  s.dependency 'AdCel/Smaato'
+#  s.dependency 'AdCel/StartApp'
+#  s.dependency 'AdCel/Tapjoy'
+#  s.dependency 'AdCel/Unity'
+#  s.dependency 'AdCel/Vungle'
+#  s.dependency 'AdCel/Inhouse'
+#  s.dependency 'AdCel/Pangle'
+#  s.dependency 'AdCel/Criteo'
+#  s.dependency 'AdCel/AdMob' #optional
+#  s.dependency 'AdCel/Facebook' #optional
+#  s.dependency 'AdCel/Yandex' #optional
+#  s.dependency 'AdCel/InMobi' #optional
+  
   s.platform = :ios, '10.0'
 
   s.static_framework = true

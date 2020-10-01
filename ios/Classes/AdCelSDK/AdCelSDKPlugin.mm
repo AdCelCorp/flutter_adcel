@@ -2,7 +2,6 @@
 
 #include "AdCelSDK.h"
 #include "AdCelView.h"
-//#include "RNAdCelBannerView.h"
 
 #define ADCEL_onInterstitialFirstLoaded ("onInterstitialFirstLoaded")
 #define ADCEL_onInterstitialWillAppear ("onInterstitialWillAppear")
@@ -53,12 +52,14 @@ char* unityAdCelSDK_targetName = NULL;
 
 +(void)onFirstAdLoaded:(NSString*)adType
 {
-    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialFirstLoaded, adType.UTF8String);
+//    [FlutterAdcelPlugin performSelector:@selector(onInterstitialFirstLoaded:) withObject:adType];
+//    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialFirstLoaded, adType.UTF8String);
 }
 
 +(void)onAdWillAppear:(NSString*)adType providerId:(int)providerId
 {
-    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialWillAppear, adType.UTF8String);
+//    [FlutterAdcelPlugin performSelector:@selector(onInterstitialWillAppear:) withObject:adType];
+//    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialWillAppear, adType.UTF8String);
 #ifdef UNITY_IOS
     UnityPause(1);
 #endif
@@ -69,62 +70,66 @@ char* unityAdCelSDK_targetName = NULL;
 #ifdef UNITY_IOS
     UnityPause(0);
 #endif
-    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialDidDisappear, adType.UTF8String);
+//    [FlutterAdcelPlugin performSelector:@selector(onInterstitialDidDisappear:) withObject:adType];
+//    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialDidDisappear, adType.UTF8String);
 }
 
 +(void)onAdFailedToAppear:(NSString*)adType
 {
-    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialFailedToAppear, adType.UTF8String);
+    [FlutterAdcelPlugin performSelector:@selector(onAdFailedToAppear:) withObject:adType];
+//    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialFailedToAppear, adType.UTF8String);
 }
 
 +(void)adCelViewDidDisplayAd:(AdCelView*)adCelView providerId:(int)providerId
 {
-    // RNAdCelBannerView* targetView = (RNAdCelBannerView*)adCelView.superview;
-    // if (targetView.onBannerDidDisplayAd)
-    // {
-    //     targetView.onBannerDidDisplayAd(@{});
-    // }
+//    FlutterAdCelView* targetView = (FlutterAdCelView*)adCelView.superview;
+//    if ([targetView respondsToSelector:@selector(onBannerDidDisplayAd)])
+//    {
+//        [targetView onBannerDidDisplayAd];
+//    }
 }
 
 +(void)adCelView:(AdCelView*)adCelView failedToDisplayAdWithError:(NSError*)error isConnectionError:(BOOL)isConnectionError
 {
-    // RNAdCelBannerView* targetView = (RNAdCelBannerView*)adCelView.superview;
-
-    // NSString* str = [NSString stringWithFormat:@"%@%@", isConnectionError ? @"Connection Error." : @"", error.localizedDescription];
-    
-    // if (targetView.onBannerFailedToDisplayAd)
-    // {
-    //     targetView.onBannerFailedToDisplayAd(@{@"error":(str ? str : @"")});
-    // }
+//    FlutterAdCelView* targetView = (FlutterAdCelView*)adCelView.superview;
+//
+//    NSString* str = [NSString stringWithFormat:@"%@%@", isConnectionError ? @"Connection Error." : @"", error.localizedDescription];
+//
+//    if ([targetView respondsToSelector:@selector(onBannerFailedToDisplayAd:)])
+//    {
+//        [targetView onBannerFailedToDisplayAd:str];
+//    }
 }
 
 +(void)allProvidersFailedToDisplayAdInView:(AdCelView*)adCelView
 {
-    // RNAdCelBannerView* targetView = (RNAdCelBannerView*)adCelView.superview;
-    // if (targetView.onBannerAllProvidersFailedToDisplayAd)
-    // {
-    //     targetView.onBannerAllProvidersFailedToDisplayAd(@{});
-    // }
+//    FlutterAdCelView* targetView = (FlutterAdCelView*)adCelView.superview;
+//    if ([targetView respondsToSelector:@selector(onBannerAllProvidersFailedToDisplayAd)])
+//    {
+//        [targetView onBannerAllProvidersFailedToDisplayAd];
+//    }
 }
 
 +(void)onReward:(int)reward currency:(NSString*)gameCurrency providerId:(int)providerId
 {
-    NSString* str = [NSString stringWithFormat:@"%d %@", reward, gameCurrency];
+//    NSString* str = [NSString stringWithFormat:@"%d %@", reward, gameCurrency];
     
-    ADCEL_PLUGIN_CALLBACK_ARG(onRewardedCompleted,str.UTF8String);
+//    [FlutterAdcelPlugin performSelector:@selector(onRewardedCompleted:) withObject:str];
+//    ADCEL_PLUGIN_CALLBACK_ARG(onRewardedCompleted,str.UTF8String);
 }
 
 +(void)onAdClicked:(NSString*)adType providerId:(int)providerId
 {
-    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialClicked, adType.UTF8String);
+//    [FlutterAdcelPlugin performSelector:@selector(onInterstitialClicked:) withObject:adType];
+//    ADCEL_PLUGIN_CALLBACK_ARG(onInterstitialClicked, adType.UTF8String);
 }
 
 +(void)adCelViewOnClick:(AdCelView*)view providerId:(int)providerId
 {
-//    RNAdCelBannerView* targetView = (RNAdCelBannerView*)view.superview;
-//    if (targetView.onBannerClicked)
+//    FlutterAdCelView* targetView = (FlutterAdCelView*)view.superview;
+//    if ([targetView respondsToSelector:@selector(onBannerClicked)])
 //    {
-//        targetView.onBannerClicked(@{});
+//        [targetView onBannerClicked];
 //    }
 }
 
