@@ -66,10 +66,13 @@ public class FlutterAdcelPlugin implements FlutterPlugin, ActivityAware, MethodC
       result.error("1", null, null);
     }
     if (call.method.equals("init") && call.hasArgument("key") && call.hasArgument("types")) {
-      AdCel.setLogging(true);
       AdCel.setInterstitialListener(this);
       AdCel.initializeSDK(mActivity, call.<String>argument("key"), call.<List<String>>argument("types").toArray(new String[] {}));
       result.success(null);
+    } else if (call.method.equals("setTestMode") && call.hasArgument("on")) {
+      AdCel.setTestMode(call.<Boolean>argument("on"));
+    }  else if (call.method.equals("setLogging") && call.hasArgument("on")) {
+      AdCel.setLogging(call.<Boolean>argument("on"));
     } else if (call.method.equals("showInterstitialAd") && call.hasArgument("type")) {
       AdCel.showInterstitialAd(call.<String>argument("type"));
       result.success(null);

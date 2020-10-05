@@ -56,6 +56,10 @@ public class AdCelBanner implements MethodChannel.MethodCallHandler, PlatformVie
         } else if (call.method.equals("dispose")) {
             dispose();
             result.success(null);
+        } else if (call.method.equals("setRefreshInterval") && call.hasArgument("interval")) {
+            setRefreshInterval(call.<Integer>argument("interval"));
+        } else if (call.method.equals("loadNextAd")) {
+            loadNextAd();
         } else {
             result.notImplemented();
         }
@@ -70,6 +74,14 @@ public class AdCelBanner implements MethodChannel.MethodCallHandler, PlatformVie
     public void dispose() {
         adView.destroy();
         channel.setMethodCallHandler(null);
+    }
+
+    public void setRefreshInterval(int refreshInterval) {
+        adView.setRefreshInterval(refreshInterval);
+    }
+
+    public void loadNextAd() {
+        adView.loadNextAd();
     }
 
     @Override

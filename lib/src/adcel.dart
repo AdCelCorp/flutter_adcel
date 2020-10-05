@@ -22,6 +22,18 @@ class AdCel {
     await _channel.invokeMethod('showInterstitialAd',{'type':type});
   }
 
+  static Future<Null> showInterstitialAdZone(String type, String zone) async {
+    await _channel.invokeMethod('showInterstitialAd',{'type':type, 'zone': zone});
+  }
+
+  static Future<Null> setLogging(bool on) async {
+    await _channel.invokeMethod('setLogging',{'on':on});
+  }
+
+  static Future<Null> setTestMode(bool on) async {
+    await _channel.invokeMethod('setTestMode',{'on':on});
+  }
+
   static Future<dynamic> _handle(MethodCall methodCall) async {
     if(methodCall.method == 'onFirstInterstitialLoad')
       interstitialListener.onFirstInterstitialLoad(methodCall.arguments['type'],

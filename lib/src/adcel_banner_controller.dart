@@ -17,6 +17,14 @@ class AdCelBannerController {
     _channel.invokeMethod('dispose');
   }
 
+  void setRefreshInterval(int interval) {
+    _channel.invokeMethod('setRefreshInterval', { 'interval': interval });
+  }
+
+  void loadNextAd() {
+    _channel.invokeMethod('loadNextAd');
+  }
+
   Future<dynamic> _handle(MethodCall methodCall) async {
     if(methodCall.method == 'onBannerLoad')
       listener.onBannerLoad();
