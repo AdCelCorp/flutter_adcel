@@ -30,6 +30,8 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
       key = 'ab3d155f-7703-4289-8372-848737c2b879:d949782d-cb74-4501-8f38-613f89a579b9';
     }
     AdCel.setInterstitialListener(this);
+    AdCel.setLogging(true);
+    //AdCel.setTestMode(true);
     AdCel.init(key, [
       AdCelAdType.BANNER,
       AdCelAdType.IMAGE,
@@ -79,7 +81,8 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
                 ),
               ),
             ],
-          )),
+          )
+      ),
     );
   }
 
@@ -119,8 +122,7 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
   @override
   void onRewardedCompleted(
       String adProvider, String currencyName, String currencyValue) {
-    print(
-        'MAIN.DART >>>> onRewardedCompleted: $adProvider, $currencyName, $currencyValue');
+    print('MAIN.DART >>>> onRewardedCompleted: $adProvider, $currencyName, $currencyValue');
   }
 
   // Banner Callbacks
