@@ -9,8 +9,8 @@
     CGRect _frame;
     FlutterMethodChannel* _channel;
     NSObject<FlutterBinaryMessenger>* _messeneger;
-    AdCelView *_adCelView;
 }
+@property(nonatomic,strong) AdCelView *adCelView;
 @end
 
 @implementation FlutterAdCelView
@@ -36,14 +36,14 @@
 }
 
 - (void)dispose {
-    [_adCelView removeFromSuperview];
-    _adCelView = nil;
+    [self.adCelView removeFromSuperview];
+    self.adCelView = nil;
     [_channel setMethodCallHandler:nil];
 }
 
 - (AdCelView *)getOrSetupAdView {
-    if (nil != _adCelView) {
-        return _adCelView;
+    if (nil != self.adCelView) {
+        return self.adCelView;
     }
     
     if (![_args[@"adSize"] isKindOfClass:[NSString class]])
@@ -51,8 +51,8 @@
         return nil;
     }
 
-    _adCelView = [[AdCelView alloc] initWithBannerSize:_args[@"adSize"] delegate:self];
-    _adCelView.frame = _frame.size.width == 0 ? CGRectMake(0,0,1,1) : _frame;
+    self.adCelView = [[AdCelView alloc] initWithBannerSize:_args[@"adSize"] delegate:self];
+    self.adCelView.frame = _frame.size.width == 0 ? CGRectMake(0,0,1,1) : _frame;
 
     __weak typeof(self)weakSelf = self;
     [_channel setMethodCallHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) {
@@ -65,11 +65,24 @@
             [weakSelf dispose];
             result(nil);
         }
+        else if ([@"setRefreshInterval" isEqualToString:call.method])
+        {
+            NSNumber *interval = call.arguments[@"interval"];
+            if (nil!=interval && [interval isKindOfClass:[NSNumber class]]) {
+                [weakSelf.adCelView setRefreshInterval:interval.floatValue];
+            }
+            result(nil);
+        }
+        else if ([@"loadNextAd" isEqualToString:call.method])
+        {
+            [weakSelf.adCelView loadNextAd];
+            result(nil);
+        }
         else {
             result(FlutterMethodNotImplemented);
         }
     }];
-    return _adCelView;
+    return self.adCelView;
 }
 
 #pragma mark - AdCelViewDelegate

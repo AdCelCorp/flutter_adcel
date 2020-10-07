@@ -15,6 +15,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBannerListener {
   bool _isButtonDisabled = true;
 
+  AdCelBannerController _adCelBannerController;
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +57,7 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
                 onPressed: _isButtonDisabled
                     ? null
                     : () {
-                        AdCel.showInterstitialAd(AdCelAdType.VIDEO);
+                        AdCel.showInterstitialAdZone(AdCelAdType.REWARDED,"Menu");
                       },
               ),
               Container(
@@ -77,6 +79,8 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
                   listener: this,
                   onBannerCreated: (AdCelBannerController controller) {
                     print('MAIN.DART >>>> Load Banner Ad with ID = ${controller.getId}');
+
+                    _adCelBannerController = controller;
                   },
                 ),
               ),
@@ -120,8 +124,7 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
   }
 
   @override
-  void onRewardedCompleted(
-      String adProvider, String currencyName, String currencyValue) {
+  void onRewardedCompleted(String adProvider, String currencyName, String currencyValue) {
     print('MAIN.DART >>>> onRewardedCompleted: $adProvider, $currencyName, $currencyValue');
   }
 
@@ -134,6 +137,9 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
   @override
   void onBannerAllProvidersFailedToLoad() {
     print('MAIN.DART >>>> onBannerAllProvidersFailedToLoad');
+
+    _adCelBannerController.setRefreshInterval(0);
+    _adCelBannerController.loadNextAd();
   }
 
   @override

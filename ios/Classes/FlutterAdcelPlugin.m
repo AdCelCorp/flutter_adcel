@@ -2,7 +2,6 @@
 
 #import <AdCel/AdCelSDK.h>
 
-#import "AdCelSDKPlugin.h"
 #import "FlutterAdCelViewFactory.h"
 
 static FlutterAdcelPlugin* adcelPlugin=nil;
@@ -32,46 +31,94 @@ static FlutterAdcelPlugin* adcelPlugin=nil;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-    if ([@"init" isEqualToString:call.method]) {
-        //AdCel_setLogLevel_platform(1);
-        AdCel_start_platform([call.arguments[@"key"] UTF8String],
-                             [[[call.arguments[@"types"] componentsJoinedByString:@","] capitalizedString] UTF8String]);
+    if ([@"init" isEqualToString:call.method])
+    {
+        [AdCelSDK setDelegate:(id)[self class]];
+        
+        NSString *types = [[call.arguments[@"types"] componentsJoinedByString:@","] capitalizedString];
+        types = [types stringByReplacingOccurrencesOfString:@"Reward" withString:@"Rewarded"];
 
+        [AdCelSDK startWithAppId:call.arguments[@"key"] modules:[types componentsSeparatedByString:@","]];
         result(nil);
     }
-    else if ([@"showInterstitialAd" isEqualToString:call.method]) {
-        BOOL success = AdCel_showInterstitial_platform([call.arguments[@"type"] UTF8String]);
+    else if ([@"showInterstitialAd" isEqualToString:call.method])
+    {
+        NSString *type = [call.arguments[@"type"] capitalizedString];
+        type = [type stringByReplacingOccurrencesOfString:@"Reward" withString:@"Rewarded"];
+        
+        BOOL success = [AdCelSDK showInterstitial:type];
         result([NSNumber numberWithBool:success]);
     }
-    else {
+    else if ([@"setLogging" isEqualToString:call.method])
+    {
+        if ([call.arguments[@"on"] boolValue]) {
+            [AdCelSDK enableDebugLogs];
+        }
+        result(nil);
+    }
+    else if ([@"setTestMode" isEqualToString:call.method])
+    {
+        if ([call.arguments[@"on"] boolValue]) {
+            [AdCelSDK enableTestMode];
+        }
+        result(nil);
+    }
+    else
+    {
         result(FlutterMethodNotImplemented);
     }
 }
 
-
-+(void)onInterstitialFirstLoaded:(NSString*)type
++(void)onFirstAdLoaded:(NSString*)adType
 {
-    [adcelPlugin.mChannel invokeMethod:@"onFirstInterstitialLoad" arguments:@{@"type":type,@"provider":@""}];
+    [adcelPlugin.mChannel invokeMethod:@"onFirstInterstitialLoad" arguments:@{@"type":adType,@"provider":@""}];
 }
 
-+(void)onInterstitialWillAppear:(NSString*)type
++(void)onAdWillAppear:(NSString*)adType providerId:(int)providerId
 {
-    [adcelPlugin.mChannel invokeMethod:@"onInterstitialWillAppear" arguments:@{@"type":type,@"provider":@""}];
+    [adcelPlugin.mChannel invokeMethod:@"onInterstitialWillAppear"
+                             arguments:@{
+                                 @"type":adType,
+                                 @"provider":[NSString stringWithFormat:@"%i",providerId]
+                                 
+                             }
+     ];
 }
 
-+(void)onInterstitialDidDisappear:(NSString*)type
++(void)onAdDidDisappear:(NSString*)adType providerId:(int)providerId
 {
-    [adcelPlugin.mChannel invokeMethod:@"onInterstitialDidDisappear" arguments:@{@"type":type,@"provider":@""}];
+    [adcelPlugin.mChannel invokeMethod:@"onInterstitialDidDisappear"
+                             arguments:@{
+                                 @"type":adType,
+                                 @"provider":[NSString stringWithFormat:@"%i",providerId]
+                             }
+     ];
 }
 
-+(void)onInterstitialFailedToAppear:(NSString*)type
++(void)onAdFailedToAppear:(NSString*)adType
 {
-    [adcelPlugin.mChannel invokeMethod:@"onInterstitialFailedToAppear" arguments:@{@"type":type,@"provider":@""}];
+    [adcelPlugin.mChannel invokeMethod:@"onInterstitialFailedToAppear" arguments:@{@"type":adType,@"provider":@""}];
 }
 
-+(void)onInterstitialClicked:(NSString*)type
++(void)onAdClicked:(NSString*)adType providerId:(int)providerId
 {
-    [adcelPlugin.mChannel invokeMethod:@"onInterstitialClicked" arguments:@{@"type":type,@"provider":@""}];
+    [adcelPlugin.mChannel invokeMethod:@"onInterstitialClicked"
+                             arguments:@{
+                                 @"type":adType,
+                                 @"provider":[NSString stringWithFormat:@"%i",providerId]
+                             }
+     ];
+}
+
++(void)onReward:(int)reward currency:(NSString*)gameCurrency providerId:(int)providerId
+{
+    [adcelPlugin.mChannel invokeMethod:@"onRewardedCompleted"
+                            arguments:@{
+                                @"provider":[NSString stringWithFormat:@"%i",providerId],
+                                @"currencyName":gameCurrency,
+                                @"currencyValue":[NSString stringWithFormat:@"%i",reward]
+                            }
+    ];
 }
 
 @end
