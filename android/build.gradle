@@ -20,7 +20,6 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "https://pubsdk-bin.criteo.com/publishersdk/android" }
         maven { url "https://maven.ogury.co" }
         maven { url "https://adcolony.bintray.com/AdColony" }
         maven { url "https://dl.bintray.com/ironsource-mobile/android-sdk" }
@@ -42,5 +41,5 @@ android {
 }
 
 dependencies {
-    api 'co.adcel.android:adcel:1.11.5'
+    api 'co.adcel.android:adcel:1.11.6'
 }
