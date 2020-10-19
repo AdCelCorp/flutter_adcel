@@ -12,3 +12,4 @@ example/android/gradle
 .last_build_id
 Podfile.lock
 IDEWorkspaceChecks.plist
+pubspec.lock

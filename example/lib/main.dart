@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> with AdCelInterstitialListener, AdCelBann
     AdCel.setInterstitialListener(this);
     AdCel.setLogging(true);
     //AdCel.setTestMode(true);
+    AdCel.setUserConsent(true);
     AdCel.init(key, [
       AdCelAdType.BANNER,
       AdCelAdType.IMAGE,

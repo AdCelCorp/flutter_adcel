@@ -63,6 +63,14 @@ static FlutterAdcelPlugin* adcelPlugin=nil;
         }
         result(nil);
     }
+    else if ([@"setUserConsent" isEqualToString:call.method])
+        {
+            NSNumber *consent = call.arguments[@"on"];
+            if (nil!=consent && [consent isKindOfClass:[NSNumber class]]) {
+                [AdCelSDK setUserConsent:[consent boolValue]];
+            }
+            result(nil);
+        }
     else
     {
         result(FlutterMethodNotImplemented);

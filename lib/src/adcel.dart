@@ -33,6 +33,10 @@ class AdCel {
     await _channel.invokeMethod('setTestMode',{'on':on});
   }
 
+  static Future<Null> setUserConsent(bool on) async {
+    await _channel.invokeMethod('setUserConsent',{'on':on});
+  }
+
   static Future<dynamic> _handle(MethodCall methodCall) async {
     if (methodCall.method == 'onFirstInterstitialLoad')
       interstitialListener.onFirstInterstitialLoad(methodCall.arguments['type'], methodCall.arguments['provider']);
