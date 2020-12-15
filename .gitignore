@@ -13,3 +13,5 @@ example/android/gradle
 Podfile.lock
 IDEWorkspaceChecks.plist
 pubspec.lock
+gradlew
+gradlew.bat
