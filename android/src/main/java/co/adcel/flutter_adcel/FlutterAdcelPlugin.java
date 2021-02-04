@@ -75,6 +75,7 @@ public class FlutterAdcelPlugin implements FlutterPlugin, ActivityAware, MethodC
       AdCel.setLogging(call.<Boolean>argument("on"));
     } else if (call.method.equals("setUserConsent") && call.hasArgument("on")) {
       AdCel.setUserConsent(call.<Boolean>argument("on"));
+    } else if (call.method.equals("requestTrackingAuthorization")) {
     } else if (call.method.equals("showInterstitialAd") && call.hasArgument("type")) {
       if (call.hasArgument("zone")) {
         AdCel.showInterstitialAd(call.<String>argument("type"), call.<String>argument("zone"));

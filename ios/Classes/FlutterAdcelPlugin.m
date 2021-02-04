@@ -1,6 +1,7 @@
 #import "FlutterAdcelPlugin.h"
 
 #import <AdCel/AdCelSDK.h>
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 #import "FlutterAdCelViewFactory.h"
 
@@ -64,13 +65,18 @@ static FlutterAdcelPlugin* adcelPlugin=nil;
         result(nil);
     }
     else if ([@"setUserConsent" isEqualToString:call.method])
-        {
-            NSNumber *consent = call.arguments[@"on"];
-            if (nil!=consent && [consent isKindOfClass:[NSNumber class]]) {
-                [AdCelSDK setUserConsent:[consent boolValue]];
-            }
-            result(nil);
+    {
+        NSNumber *consent = call.arguments[@"on"];
+        if (nil!=consent && [consent isKindOfClass:[NSNumber class]]) {
+            [AdCelSDK setUserConsent:[consent boolValue]];
         }
+        result(nil);
+    }
+    else if ([@"requestTrackingAuthorization" isEqualToString:call.method])
+    {
+        [NSClassFromString(@"ATTrackingManager") requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus s){}];
+        result(nil);
+    }
     else
     {
         result(FlutterMethodNotImplemented);

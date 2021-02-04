@@ -34,7 +34,11 @@ class AdCel {
   }
 
   static Future<Null> setUserConsent(bool on) async {
-    await _channel.invokeMethod('setUserConsent',{'on':on});
+    await _channel.invokeMethod('setUserConsent', {'on': on});
+  }
+
+  static Future<Null> requestTrackingAuthorization() async {
+    await _channel.invokeMethod('requestTrackingAuthorization');
   }
 
   static Future<dynamic> _handle(MethodCall methodCall) async {
